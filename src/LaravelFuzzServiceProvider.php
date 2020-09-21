@@ -16,11 +16,16 @@ class LaravelFuzzServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        //
+        // Make Laravel Fuzz available as an singleton. We will use this later to
+        // access the same instance of the class trough the execution of Laravel.
+        $this->app->singleton('xqus\LaravelFuzz\LaravelFuzz', function ($app) {
+            return new \xqus\LaravelFuzz\LaravelFuzz();
+        });
     }
 
     public function boot()
     {
+        // Register migrations.
         if (! class_exists('CreatePerformanceLogsTable')) {
             $this->publishes(
                 [
@@ -31,11 +36,43 @@ class LaravelFuzzServiceProvider extends ServiceProvider
             );
         }
 
+        // Instantiate the Laravel Fuzz class trough the Laravel service container.
+        $fuzz = $this->app->make('xqus\LaravelFuzz\LaravelFuzz');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Listen for the Illuminate\Database\Events\QueryExecuted
+        |--------------------------------------------------------------------------
+        |
+        | We listen for the event that is called every time a datbase query is
+        | done. We then pass information about it to Laravel Fuzz so that we
+        | can count the mumber of queries each request generates, as well as the
+        | total time we are waiting for the datbase results.
+        | In the feature we should also save slow requests to a separate table.
+        |
+        */
         Event::listen(
-            '*',
-            function ($eventName, array $data) {
-                // Illuminate\Database\Events\QueryExecuted
-                // Illuminate\Foundation\Http\Events\RequestHandled
+            'Illuminate\Database\Events\QueryExecuted',
+            function ($data) use ($fuzz) {
+                $fuzz->dbQuery($data);
+            }
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Listen for the Illuminate\Foundation\Http\Events\RequestHandled
+        |--------------------------------------------------------------------------
+        |
+        | We listen for the event that is called when a request is finished by
+        | Laravel. Then we log information about the request, like for example how
+        | many SQL queries we performed and the memory usage. We also save som meta
+        | information about the request.
+        |
+        */
+        Event::listen(
+            'Illuminate\Foundation\Http\Events\RequestHandled',
+            function ($data) use ($fuzz) {
+                $fuzz->logPerformance($data);
             }
         );
     }
