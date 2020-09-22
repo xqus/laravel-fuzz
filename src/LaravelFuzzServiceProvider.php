@@ -10,12 +10,29 @@
 namespace xqus\LaravelFuzz;
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 
 class LaravelFuzzServiceProvider extends ServiceProvider
 {
+
+    /**
+     * Register any package services.
+     *
+     * @return void
+     */
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/fuzz.php',
+            'fuzz'
+        );
+
+        $this->commands([
+            Console\PublishCommand::class,
+        ]);
+
         // Make Laravel Fuzz available as an singleton. We will use this later to
         // access the same instance of the class trough the execution of Laravel.
         $this->app->singleton('xqus\LaravelFuzz\LaravelFuzz', function ($app) {
@@ -23,18 +40,48 @@ class LaravelFuzzServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Bootstrap any package services.
+     *
+     * @return void
+     */
     public function boot()
     {
-        // Register migrations.
-        if (! class_exists('CreatePerformanceLogsTable')) {
+        if (! config('fuzz.enabled')) {
+            return;
+        }
+
+        Route::middlewareGroup('fuzz', config('fuzz.middleware', []));
+
+        Route::group($this->routeConfiguration(), function () {
+            $this->loadRoutesFrom(__DIR__.'../../routes/web.php');
+        });
+
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-fuzz');
+
+        if ($this->app->runningInConsole()) {
+            $this->publishes(
+                [
+                    __DIR__ . '/../public' => public_path('xqus/laravel-fuzz'),
+                ],
+                'fuzz-assets'
+            );
+
+            $this->publishes([
+                __DIR__.'/../config/fuzz.php' => config_path('fuzz.php'),
+            ], 'fuzz-config');
+
             $this->publishes(
                 [
                     __DIR__ . '/../database/migrations/2020_09_20_164014_create_performance_logs_table.php'
                     => database_path('migrations/2020_09_20_164014_create_performance_logs_table.php')
                 ],
-                'migrations'
+                'fuzz-migrations'
             );
         }
+
+        Livewire::component('laravel-fuzz::response-time', Components\ResponseTime::class);
+        Livewire::component('laravel-fuzz::request-table', Components\RequestTable::class);
 
         // Instantiate the Laravel Fuzz class trough the Laravel service container.
         $fuzz = $this->app->make('xqus\LaravelFuzz\LaravelFuzz');
@@ -75,5 +122,19 @@ class LaravelFuzzServiceProvider extends ServiceProvider
                 $fuzz->logPerformance($data);
             }
         );
+    }
+
+    /**
+     * Get the Fuzz route group configuration array.
+     *
+     * @return array
+     */
+    private function routeConfiguration()
+    {
+        return [
+            'namespace' => 'xqus\LaravelFuzz\Http\Controllers',
+            'prefix' => config('fuzz.path'),
+            'middleware' => 'fuzz',
+        ];
     }
 }

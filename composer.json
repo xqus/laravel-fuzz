@@ -9,7 +9,8 @@
     ],
     "minimum-stability": "dev",
     "autoload": {
-        "psr-4": {            "xqus\\LaravelFuzz\\": "src/"
+        "psr-4": {
+          "xqus\\LaravelFuzz\\": "src/"
         }
     },
     "autoload-dev": {
