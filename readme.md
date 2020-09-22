@@ -1,7 +1,13 @@
 Laravel Fuzz
 =============
 
-![Laravel Mockery](https://github.com/xqus/laravel-fuzz/workflows/Laravel%20Mockery/badge.svg)
+<p align="center">
+<a href="https://github.com/xqus/laravel-fuzz/actions"><img src="https://github.com/xqus/laravel-fuzz/workflows/Laravel%20Mockery/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/xqus/laravel-fuzz"><img src="https://poser.pugx.org/xqus/laravel-fuzz/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/xqus/laravel-fuzz"><img src="https://poser.pugx.org/xqus/laravel-fuzz/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/xqus/laravel-fuzz"><img src="https://poser.pugx.org/xqus/laravel-fuzz/license.svg" alt="License"></a>
+</p>
+![Laravel Mockery]()
 
 About
 ------
@@ -35,4 +41,4 @@ Todo
 
 License
 -------
-Laravel Fuzz is licensed under the MIT license.
+Laravel Fuzz is open-sourced software licensed under the [MIT license](license.md).
