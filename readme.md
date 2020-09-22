@@ -7,7 +7,6 @@ Laravel Fuzz
 <a href="https://packagist.org/packages/xqus/laravel-fuzz"><img src="https://poser.pugx.org/xqus/laravel-fuzz/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/xqus/laravel-fuzz"><img src="https://poser.pugx.org/xqus/laravel-fuzz/license.svg" alt="License"></a>
 </p>
-![Laravel Mockery]()
 
 About
 ------
