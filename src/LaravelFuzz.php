@@ -49,6 +49,7 @@ class LaravelFuzz
             'execution_time' => $this->getExecutionTime(),
             'db_query_count' => $this->dbQueries,
             'db_execution_time' => $this->dbTime,
+            'models_count' => 0,
             'memory_peak' => round(memory_get_peak_usage(true) / 1024 / 1024, 4, 1)
         ]);
     }

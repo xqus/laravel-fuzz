@@ -24,6 +24,7 @@ class CreatePerformanceLogsTable extends Migration
             $table->unsignedInteger('execution_time');
             $table->unsignedInteger('db_query_count');
             $table->unsignedInteger('db_execution_time');
+            $table->unsignedInteger('models_count');
             $table->unsignedInteger('memory_peak');
 
             $table->timestamps();
