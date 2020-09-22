@@ -1,6 +1,8 @@
 Laravel Fuzz
 =============
 
+![Laravel Mockery](https://github.com/xqus/laravel-fuzz/workflows/Laravel%20Mockery/badge.svg)
+
 About
 ------
 Laravel Fuzz is a performance monitor for Laravel. It is similar to Laravel
