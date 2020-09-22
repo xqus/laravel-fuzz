@@ -25,8 +25,17 @@ class LaravelFuzzServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        // Register migrations.
-        if (! class_exists('CreatePerformanceLogsTable')) {
+        $this->loadRoutesFrom(__DIR__.'../../routes/web.php');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-fuzz');
+
+        if ($this->app->runningInConsole()) {
+            $this->publishes(
+                [
+                    __DIR__ . '/../public' => public_path('xqus/laravel-fuzz'),
+                ],
+                'assets'
+            );
+
             $this->publishes(
                 [
                     __DIR__ . '/../database/migrations/2020_09_20_164014_create_performance_logs_table.php'
