@@ -39,7 +39,7 @@ Laravel Fuzz will save the following information:
 Todo
 ----
 - Count number of models hydrated
-- Dashboard
+- Finalize Dashboard
 
 License
 -------
