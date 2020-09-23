@@ -1,4 +1,4 @@
-{{ $requests->links() }}
+<div>
 <table class="w-full p-5 text-gray-700">
     <thead>
         <tr>
@@ -26,3 +26,5 @@
         @endforeach
     </tbody>
 </table>
+{{ $requests->links() }}
+</div>

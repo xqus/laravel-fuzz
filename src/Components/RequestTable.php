@@ -13,7 +13,7 @@ class RequestTable extends Component
     public function render()
     {
         return view('laravel-fuzz::request-table', [
-            'requests' => PerformanceLog::orderBy('created_at', 'desc')->paginate(10),
+            'requests' => PerformanceLog::orderBy('created_at', 'desc')->paginate(30),
         ]);
     }
 }

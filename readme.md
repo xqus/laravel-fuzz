@@ -18,11 +18,14 @@ Installing
 ----------
 `composer require xqus\laravel-fuzz`
 
-Run `php artisan vendor:publish`
+Run `php artisan fuzz:publish`
 
-Choose `Provider: xqus\LaravelFuzz\LaravelFuzzServiceProvider`
+Edit `config/fuzz.php` to your needs. As a minimum you need to add
+your users e-mail address.
 
 Run `php artisan migrate` to migrate your databases.
+
+Visit the path you specified in the config file, default is `/fuzz`.
 
 Features
 --------
