@@ -3,6 +3,21 @@
 use xqus\LaravelFuzz\Http\Middleware\Authorize;
 
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Users
+    |--------------------------------------------------------------------------
+    |
+    | This is a list of email addresses of users that can access the Fuzz
+    | dashboard.
+    |
+    */
+
+    'users' => [
+        'user@example.com',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Path
@@ -14,16 +29,16 @@ return [
     |
     */
 
-    'path' => env('TELESCOPE_PATH', 'fuzz'),
+    'path' => env('FUZZ_PATH', 'fuzz'),
 
     /*
     |--------------------------------------------------------------------------
     | Master Switch
     |--------------------------------------------------------------------------
     |
-    | This option may be used to disable all Telescope watchers regardless
+    | This option may be used to disable all Fuzz watchers regardless
     | of their individual configuration, which simply provides a single
-    | and convenient way to enable or disable Telescope data storage.
+    | and convenient way to enable or disable Fuzz data storage.
     |
     */
 
@@ -31,10 +46,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Telescope Route Middleware
+    | Route Middleware
     |--------------------------------------------------------------------------
     |
-    | These middleware will be assigned to every Telescope route, giving you
+    | These middleware will be assigned to every Fuzz route, giving you
     | the chance to add your own middleware to this list or change any of
     | the existing middleware. Or, you can simply stick with this list.
     |

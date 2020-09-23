@@ -12,7 +12,6 @@ trait AuthorizesRequests
      */
     public static function check($request)
     {
-        dd($request->user());
-        return true;
+        return in_array($request->user()->email, config('fuzz.users', []));
     }
 }
