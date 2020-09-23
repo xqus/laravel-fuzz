@@ -71,6 +71,7 @@ class LaravelFuzzServiceProvider extends ServiceProvider
         }
 
         Livewire::component('laravel-fuzz::response-time', Components\ResponseTime::class);
+        Livewire::component('laravel-fuzz::request-table', Components\RequestTable::class);
 
         // Instantiate the Laravel Fuzz class trough the Laravel service container.
         $fuzz = $this->app->make('xqus\LaravelFuzz\LaravelFuzz');
