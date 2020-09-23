@@ -10,6 +10,7 @@
 namespace xqus\LaravelFuzz;
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -46,7 +47,16 @@ class LaravelFuzzServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__.'../../routes/web.php');
+        if (! config('fuzz.enabled')) {
+            return;
+        }
+
+        Route::middlewareGroup('fuzz', config('fuzz.middleware', []));
+
+        Route::group($this->routeConfiguration(), function () {
+            $this->loadRoutesFrom(__DIR__.'../../routes/web.php');
+        });
+
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-fuzz');
 
         if ($this->app->runningInConsole()) {
@@ -112,5 +122,19 @@ class LaravelFuzzServiceProvider extends ServiceProvider
                 $fuzz->logPerformance($data);
             }
         );
+    }
+
+    /**
+     * Get the Fuzz route group configuration array.
+     *
+     * @return array
+     */
+    private function routeConfiguration()
+    {
+        return [
+            'namespace' => 'xqus\LaravelFuzz\Http\Controllers',
+            'prefix' => config('fuzz.path'),
+            'middleware' => 'fuzz',
+        ];
     }
 }

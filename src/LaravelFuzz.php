@@ -15,6 +15,8 @@ use xqus\LaravelFuzz\Models\PerformanceLog;
 
 class LaravelFuzz
 {
+    use AuthorizesRequests;
+
     public $dbQueries = 0;
     public $dbTime = 0;
 
