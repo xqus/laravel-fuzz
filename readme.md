@@ -34,7 +34,7 @@ Laravel Fuzz will save the following information:
 - Number of database queries executed
 - Time used on database queries
 - Memory usage
-- Reguest information
+- Request information
 
 Todo
 ----
