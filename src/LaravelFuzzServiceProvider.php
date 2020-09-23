@@ -11,6 +11,7 @@ namespace xqus\LaravelFuzz;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 
 class LaravelFuzzServiceProvider extends ServiceProvider
 {
@@ -68,6 +69,8 @@ class LaravelFuzzServiceProvider extends ServiceProvider
                 'fuzz-migrations'
             );
         }
+
+        Livewire::component('laravel-fuzz::response-time', Components\ResponseTime::class);
 
         // Instantiate the Laravel Fuzz class trough the Laravel service container.
         $fuzz = $this->app->make('xqus\LaravelFuzz\LaravelFuzz');
