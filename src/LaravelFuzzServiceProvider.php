@@ -14,8 +14,23 @@ use Illuminate\Support\ServiceProvider;
 
 class LaravelFuzzServiceProvider extends ServiceProvider
 {
+
+    /**
+     * Register any package services.
+     *
+     * @return void
+     */
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/fuzz.php',
+            'fuzz'
+        );
+
+        $this->commands([
+            Console\PublishCommand::class,
+        ]);
+
         // Make Laravel Fuzz available as an singleton. We will use this later to
         // access the same instance of the class trough the execution of Laravel.
         $this->app->singleton('xqus\LaravelFuzz\LaravelFuzz', function ($app) {
@@ -23,6 +38,11 @@ class LaravelFuzzServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Bootstrap any package services.
+     *
+     * @return void
+     */
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__.'../../routes/web.php');
@@ -33,15 +53,19 @@ class LaravelFuzzServiceProvider extends ServiceProvider
                 [
                     __DIR__ . '/../public' => public_path('xqus/laravel-fuzz'),
                 ],
-                'assets'
+                'fuzz-assets'
             );
+
+            $this->publishes([
+                __DIR__.'/../config/fuzz.php' => config_path('fuzz.php'),
+            ], 'fuzz-config');
 
             $this->publishes(
                 [
                     __DIR__ . '/../database/migrations/2020_09_20_164014_create_performance_logs_table.php'
                     => database_path('migrations/2020_09_20_164014_create_performance_logs_table.php')
                 ],
-                'migrations'
+                'fuzz-migrations'
             );
         }
 
