@@ -18,6 +18,7 @@
       }
     },
     "require": {
+      "livewire/livewire": "^2.2.6"
     },
 
     "extra": {
