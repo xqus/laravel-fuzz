@@ -2,6 +2,8 @@
 
 namespace xqus\LaravelFuzz;
 
+use Illuminate\Support\Facades\App;
+
 trait AuthorizesRequests
 {
     /**
@@ -12,6 +14,9 @@ trait AuthorizesRequests
      */
     public static function check($request)
     {
+        if (App::environment('local')) {
+            return true;
+        }
         return in_array($request->user()->email, config('fuzz.users', []));
     }
 }
